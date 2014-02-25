@@ -7,6 +7,14 @@ Crashlytics is a fantastic service that we've used for quite a while, and reache
 
 Specifically, I wanted to know which of our files had the most issues over time, and which methods within those files were the culprits. 
 
+Authentication
+--------------
+CrashStats uses [Mechanize](https://github.com/sparklemotion/mechanize) to login to Crashlytics and store the session data for subsequent requests. Optionally pass your email `-e` and password `-p` each time, or store your credentials in your environment:
+````
+export CRASHLYTICS_EMAIL=<email>
+export CRASHLYTICS_PASSWORD=<password>
+````
+
 
 Stats
 -----
@@ -44,57 +52,9 @@ Importing the raw JSON of all issues is also possible via the `issues` command:
 ./crashstats.rb -e <email> -p <password> issues
 ````
 
-Output:
-````
-[
-  {
-    "id": "528a8572e2c70d3456654",
-    "name": "Your App",
-    "bundle_identifier": "com.app",
-    "platform": "ios",
-    "status": "activated",
-    "latest_build": "2.2.19.RC4 (beta)",
-    "icon_url": "https://s3.amazonaws.com/assets...",
-    "icon_hash": "....",
-    "icon32_url": "https://s3.amazonaws.com/assets...",
-    "icon64_url": "https://s3.amazonaws.com/assets....",
-    "icon128_url": "https://s3.amazonaws.com/assets....",
-    "impacted_devices_count": 8,
-    "unresolved_issues_count": 8,
-    "organization_id": "5086fc1976fa53641b264562",
-    "dashboard_url": "https://www.crashlytics.com/....",
-    "settings_url": "https://www.crashlytics.com/....",
-    "issues": [
-      {
-        "id": "52d6cc32e2c70d5d81366532",
-        "display_id": 2,
-        "impact_level": 1,
-        "title": "UIKit",
-        "subtitle": "__53-[UITableView _configureCellForDisplay:forIndexPath:]_block_invoke",
-        "crashes_count": 11,
-        "event_type": 1,
-        "impacted_devices_count": 5,
-        "average_free_space": null,
-        "average_free_ram": null,
-        "notes_count": 0,
-        "resolved_at": null,
-        "suggestion": null,
-        "build": "2.2.19 (xcd)",
-        "url": "https://www.crashlytics.com....",
-        "share_url": "http://crashes.to/s/....",
-        "shares_base_uri": "http://crashes.to",
-        "latest_cls_id": "52de90e403620001038639234552",
-        "file": "UIKit",
-        "class": "__53UITableView",
-        "method": "_configureCellForDisplay:forIndexPath:_block_invoke"
-      }
-    }
-]
-````
-
 Backtraces
 ----------
-By including the `-b` option, backtraces will be downloaded and stored on your file system using the following path format:
+By including the `-b` option, backtraces will be downloaded and stored on your file system using the following format:
 
 ````
 backtraces/<bundle_identifier>/<issue_id>.txt
