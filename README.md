@@ -75,9 +75,9 @@ Options
 Usage: crashstats.rb [options] COMMAND (issues|stats)
     -i, --issue-status [STATUS]      Issue status - unresolved (default), resolved, or all
     -e, --email [EMAIL]              Email used for login, or ENV['CRASHLYTICS_EMAIL']
-        --password [PASSWORD]        Password used for login, or ENV['CRASHLYTICS_PASSWORD']
+    -p, --password [PASSWORD]        Password used for login, or ENV['CRASHLYTICS_PASSWORD']
     -v, --verbose                    Output debug information
     -o, --output [FILE]              File path to write output
-    -p, --pretty                     Pretty print JSON ouput
+    -P, --pretty                     Pretty print JSON ouput
     -b, --backtraces                 Include backtraces with issues
 ````
