@@ -15,6 +15,11 @@ OptionParser.new do |opts|
     options[:issue_status] = v
   end
 
+  options[:build] = ""
+  opts.on("-b", "--build [BUILD]", "Specify a specific build") do |v|
+    options[:build] = v
+  end
+
   options[:email] = ENV["CRASHLYTICS_EMAIL"]
   opts.on("-e", "--email [EMAIL]", "Email used for login, or ENV['CRASHLYTICS_EMAIL']") do |v|
     options[:email] = v
@@ -41,7 +46,7 @@ OptionParser.new do |opts|
   end
 
   options[:backtraces] = false
-  opts.on("-b", "--backtraces", "Include backtraces with issues") do
+  opts.on("-B", "--backtraces", "Include backtraces with issues") do
     options[:backtraces] = true
   end
 
@@ -88,7 +93,7 @@ class CrashStats
       num_pages = 1
 
       begin
-        app_req = @agent.get "#{issue_base_url}.json?status_equals=#{@options[:issue_status]}&event_type_equals=all&page=#{page + 1}"
+        app_req = @agent.get "#{issue_base_url}.json?build_equals=#{@options[:build]}&status_equals=#{@options[:issue_status]}&event_type_equals=all&page=#{page + 1}"
 
         if app_req.response['x-crashlytics-level-1-count']
           num_pages = (app_req.response['x-crashlytics-level-1-count'].to_i / @per_page).ceil
@@ -149,11 +154,11 @@ class CrashStats
         name = issue["file"]
         method_name = issue["method"]
         files[name] = {"count" => 0,"methods" => {}} unless files[name]
-        files[name]["count"] = files[name]["count"] + 1
+        files[name]["count"] = files[name]["count"] + issue["crashes_count"]
 
         methods = files[name]["methods"]
         methods[method_name] = 0 unless methods[method_name]
-        methods[method_name] = methods[method_name] + 1
+        methods[method_name] = methods[method_name] + issue["crashes_count"]
 
         files[name]["methods"] = Hash[methods.sort_by{|k,v| v}.reverse]
       end

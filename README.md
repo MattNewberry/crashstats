@@ -15,7 +15,6 @@ export CRASHLYTICS_EMAIL=<email>
 export CRASHLYTICS_PASSWORD=<password>
 ````
 
-
 Stats
 -----
 Running the `stats` command will import all `unresolved` issues and aggregate them per file, sorting by highest issue count. 
@@ -54,7 +53,7 @@ Importing the raw JSON of all issues is also possible via the `issues` command:
 
 Backtraces
 ----------
-By including the `-b` option, backtraces will be downloaded and stored on your file system using the following format:
+By including the `-B` option, backtraces will be downloaded and stored on your file system using the following format:
 
 ````
 backtraces/<bundle_identifier>/<issue_id>.txt
@@ -74,10 +73,11 @@ Options
 ````
 Usage: crashstats.rb [options] COMMAND (issues|stats)
     -i, --issue-status [STATUS]      Issue status - unresolved (default), resolved, or all
+    -b, --build [BUILD]              Specify a specific build
     -e, --email [EMAIL]              Email used for login, or ENV['CRASHLYTICS_EMAIL']
     -p, --password [PASSWORD]        Password used for login, or ENV['CRASHLYTICS_PASSWORD']
     -v, --verbose                    Output debug information
     -o, --output [FILE]              File path to write output
     -P, --pretty                     Pretty print JSON ouput
-    -b, --backtraces                 Include backtraces with issues
+    -B, --backtraces                 Include backtraces with issues
 ````
